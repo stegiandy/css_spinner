@@ -1,0 +1,109 @@
+/*
+NOTE ABOUT THE FORK:
+This demonstrates the use of radial gradients on the Pie Spinner by HugoGiraudel (http://codepen.io/HugoGiraudel/pen/BHEwo).
+Most of the code is unchanged, too make my changes clear I have removed the previous comments.
+I added radial gradients (see the color change on hover) and a demonstration for the responsive size (click), and a little "Click me" pseudo element.
+*/
+
+$animation-duration : 10s;
+
+* { box-sizing:border-box; }
+
+.wrapper { 
+  width:250px;
+  height:250px;
+  margin:10px auto;
+  position:relative;
+  background:white;
+/*The bigger size at click:*/
+  transition: width 0.5s, height 0.5s;
+  &.big {
+  	width: 400px;
+  	height: 400px;
+  }
+}
+
+.pie {
+  width: 50%;
+  height: 100%;
+  transform-origin: 100% 50%;
+  position: absolute;
+    
+  /*
+  Here comes the radial gradient.
+  Note that it has to have the alignment "left center" for the .filler,
+  and "right center" for the .spinner!
+  */
+  background: radial-gradient(left center, circle, #0cf 0px, #008 100%);
+  /* The borders mustn't be transparent, that looks really ugly! */
+  border: 20px solid #024;
+}
+
+.spinner {
+  border-radius: 100% 0 0 100% / 50% 0 0 50%;
+  z-index: 200;
+  background: radial-gradient(right center, circle, #0cf 0px, #008 100%);
+  
+  border-right:none;
+    
+  animation: rota $animation-duration linear infinite;
+  
+  &::after {
+    position:absolute;
+    height:20px;
+    top:0px;
+    right:0px;
+    content:"Click me!";
+    transform: rotate(270deg);
+    transform-origin: 100% 100%;
+    color: white;
+    font: 16px/20px sans-serif;
+	}
+}
+
+.wrapper:hover {
+  .pie {
+    border-color: #620;
+  }
+  .filler {
+    background: radial-gradient(left center, circle, #fb1 0px, #d60 100%);
+  }
+  .spinner { 
+    background: radial-gradient(right center, circle, #fb1 0px, #d60 100%);
+  }
+}
+
+.filler {
+  border-radius: 0 100% 100% 0 / 0 50% 50% 0; 
+  left: 50%;
+  opacity: 0;
+  z-index: 100;
+  animation: fill $animation-duration steps(1,end) infinite;
+    
+  border-left: none;
+}
+
+.mask {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  background: inherit;
+  opacity: 1;
+  z-index: 300;
+  animation: mask $animation-duration steps(1,end) infinite;
+}
+
+@keyframes rota {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes mask {
+  0% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes fill {
+  0% { opacity: 0; }
+  50%, 100% { opacity: 1; }
+}
