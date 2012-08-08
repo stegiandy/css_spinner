@@ -1,11 +1,10 @@
 /*
-NOTE ABOUT THE FORK:
-This demonstrates the use of radial gradients on the Pie Spinner by HugoGiraudel (http://codepen.io/HugoGiraudel/pen/BHEwo).
-Most of the code is unchanged, too make my changes clear I have removed the previous comments.
-I added radial gradients (see the color change on hover) and a demonstration for the responsive size (click), and a little "Click me" pseudo element.
+own fork
 */
 * {
+  box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
 .wrapper {
@@ -15,7 +14,9 @@ I added radial gradients (see the color change on hover) and a demonstration for
   position: relative;
   background: white;
   /*The bigger size at click:*/
+  transition: width 0.5s, height 0.5s;
   -moz-transition: width 0.5s, height 0.5s;
+  -webkit-transition: width 0.5s, height 0.5s;
 }
 .wrapper.big {
   width: 400px;
@@ -25,14 +26,18 @@ I added radial gradients (see the color change on hover) and a demonstration for
 .pie {
   width: 50%;
   height: 100%;
+  transform-origin: 100% 50%;
   -moz-transform-origin: 100% 50%;
+  -webkit-transform-origin: 100% 50%;
   position: absolute;
   /*
   Here comes the radial gradient.
   Note that it has to have the alignment "left center" for the .filler,
   and "right center" for the .spinner!
   */
-  background: -moz-radial-gradient(left center, circle, #00ccff 0px, #000088 100%);
+  background: radial-gradient(left center, circle, #00ccff 0px, #000088 100%);
+  background: -moz-radial-gradient(left center, circle, #0cf 0px, #008 100%);
+  background: -webkit-radial-gradient(left center, circle, #00ccff 0px, #000088 100%);
   /* The borders mustn't be transparent, that looks really ugly! */
   border: 20px solid #024;
 }
@@ -40,9 +45,15 @@ I added radial gradients (see the color change on hover) and a demonstration for
 .spinner {
   border-radius: 100% 0 0 100%/50% 0 0 50%;
   z-index: 200;
-  background: -moz-radial-gradient(right center, circle, #00ccff 0px, #000088 100%);
   border-right: none;
+
+  background: radial-gradient(right center, circle, #00ccff 0px, #000088 100%);
+  background: -moz-radial-gradient(right center, circle, #00ccff 0px, #000088 100%);
+  background: -webkit-radial-gradient(right center, circle, #00ccff 0px, #000088 100%);
+
+  animation: rota 10s linear infinite;
   -moz-animation: rota 10s linear infinite;
+  -webkit-animation: rota 10s linear infinite;
 }
 .spinner::after {
   position: absolute;
@@ -50,8 +61,12 @@ I added radial gradients (see the color change on hover) and a demonstration for
   top: 0px;
   right: 0px;
   content: "Click me!";
+  transform: rotate(270deg);
   -moz-transform: rotate(270deg);
+  -webkit-transform: rotate(270deg);
+  transform-origin: 100% 100%;
   -moz-transform-origin: 100% 100%;
+  -webkit-transform-origin: 100% 100%;
   color: white;
   font: 16px/20px sans-serif;
 }
@@ -60,10 +75,14 @@ I added radial gradients (see the color change on hover) and a demonstration for
   border-color: #620;
 }
 .wrapper:hover .filler {
+  background: radial-gradient(left center, circle, #ffbb11 0px, #dd6600 100%);
   background: -moz-radial-gradient(left center, circle, #ffbb11 0px, #dd6600 100%);
+  background: -webkit-radial-gradient(left center, circle, #ffbb11 0px, #dd6600 100%);
 }
 .wrapper:hover .spinner {
+  background: radial-gradient(right center, circle, #ffbb11 0px, #dd6600 100%);
   background: -moz-radial-gradient(right center, circle, #ffbb11 0px, #dd6600 100%);
+  background: -webkit-radial-gradient(right center, circle, #ffbb11 0px, #dd6600 100%);
 }
 
 .filler {
@@ -71,7 +90,9 @@ I added radial gradients (see the color change on hover) and a demonstration for
   left: 50%;
   opacity: 0;
   z-index: 100;
+  animation: fill 10s steps(1, end) infinite;
   -moz-animation: fill 10s steps(1, end) infinite;
+  -webkit-animation: fill 10s steps(1, end) infinite;
   border-left: none;
 }
 
@@ -82,20 +103,41 @@ I added radial gradients (see the color change on hover) and a demonstration for
   background: inherit;
   opacity: 1;
   z-index: 300;
+  animation: mask 10s steps(1, end) infinite;
   -moz-animation: mask 10s steps(1, end) infinite;
+  -webkit-animation: mask 10s steps(1, end) infinite;
 }
 
 @-moz-keyframes rota {
   0% {
+    transform: rotate(0deg);
     -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
   }
 
   100% {
+    transform: rotate(360deg);
     -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
   }
 }
 
-@-moz-keyframes mask {
+@-webkit-keyframes rota {
+  0% {
+    transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes mask
+ {
   0% {
     opacity: 1;
   }
@@ -105,7 +147,27 @@ I added radial gradients (see the color change on hover) and a demonstration for
   }
 }
 
-@-moz-keyframes fill {
+@-webkit-keyframes mask
+ {
+  0% {
+    opacity: 1;
+  }
+
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes fill{
+  0% {
+    opacity: 0;
+  }
+
+  50%, 100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fill {
   0% {
     opacity: 0;
   }
