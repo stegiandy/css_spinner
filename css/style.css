@@ -4,82 +4,74 @@ This demonstrates the use of radial gradients on the Pie Spinner by HugoGiraudel
 Most of the code is unchanged, too make my changes clear I have removed the previous comments.
 I added radial gradients (see the color change on hover) and a demonstration for the responsive size (click), and a little "Click me" pseudo element.
 */
+* {
+  -moz-box-sizing: border-box;
+}
 
-$animation-duration : 10s;
-
-* { box-sizing:border-box; }
-
-.wrapper { 
-  width:250px;
-  height:250px;
-  margin:10px auto;
-  position:relative;
-  background:white;
-/*The bigger size at click:*/
-  transition: width 0.5s, height 0.5s;
-  &.big {
-  	width: 400px;
-  	height: 400px;
-  }
+.wrapper {
+  width: 250px;
+  height: 250px;
+  margin: 10px auto;
+  position: relative;
+  background: white;
+  /*The bigger size at click:*/
+  -moz-transition: width 0.5s, height 0.5s;
+}
+.wrapper.big {
+  width: 400px;
+  height: 400px;
 }
 
 .pie {
   width: 50%;
   height: 100%;
-  transform-origin: 100% 50%;
+  -moz-transform-origin: 100% 50%;
   position: absolute;
-    
   /*
   Here comes the radial gradient.
   Note that it has to have the alignment "left center" for the .filler,
   and "right center" for the .spinner!
   */
-  background: radial-gradient(left center, circle, #0cf 0px, #008 100%);
+  background: -moz-radial-gradient(left center, circle, #00ccff 0px, #000088 100%);
   /* The borders mustn't be transparent, that looks really ugly! */
   border: 20px solid #024;
 }
 
 .spinner {
-  border-radius: 100% 0 0 100% / 50% 0 0 50%;
+  border-radius: 100% 0 0 100%/50% 0 0 50%;
   z-index: 200;
-  background: radial-gradient(right center, circle, #0cf 0px, #008 100%);
-  
-  border-right:none;
-    
-  animation: rota $animation-duration linear infinite;
-  
-  &::after {
-    position:absolute;
-    height:20px;
-    top:0px;
-    right:0px;
-    content:"Click me!";
-    transform: rotate(270deg);
-    transform-origin: 100% 100%;
-    color: white;
-    font: 16px/20px sans-serif;
-	}
+  background: -moz-radial-gradient(right center, circle, #00ccff 0px, #000088 100%);
+  border-right: none;
+  -moz-animation: rota 10s linear infinite;
+}
+.spinner::after {
+  position: absolute;
+  height: 20px;
+  top: 0px;
+  right: 0px;
+  content: "Click me!";
+  -moz-transform: rotate(270deg);
+  -moz-transform-origin: 100% 100%;
+  color: white;
+  font: 16px/20px sans-serif;
 }
 
-.wrapper:hover {
-  .pie {
-    border-color: #620;
-  }
-  .filler {
-    background: radial-gradient(left center, circle, #fb1 0px, #d60 100%);
-  }
-  .spinner { 
-    background: radial-gradient(right center, circle, #fb1 0px, #d60 100%);
-  }
+.wrapper:hover .pie {
+  border-color: #620;
+}
+.wrapper:hover .filler {
+  background: -moz-radial-gradient(left center, circle, #ffbb11 0px, #dd6600 100%);
+}
+.wrapper:hover .spinner {
+  background: -moz-radial-gradient(right center, circle, #ffbb11 0px, #dd6600 100%);
 }
 
 .filler {
-  border-radius: 0 100% 100% 0 / 0 50% 50% 0; 
+  border-radius: 0 100% 100% 0/0 50% 50% 0;
   left: 50%;
   opacity: 0;
   z-index: 100;
-  animation: fill $animation-duration steps(1,end) infinite;
-    
+  -moz-animation: fill 10s steps(1, end) infinite;
   border-left: none;
 }
 
@@ -90,20 +82,35 @@ $animation-duration : 10s;
   background: inherit;
   opacity: 1;
   z-index: 300;
-  animation: mask $animation-duration steps(1,end) infinite;
+  -moz-animation: mask 10s steps(1, end) infinite;
 }
 
-@keyframes rota {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@-moz-keyframes rota {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(360deg);
+  }
 }
 
-@keyframes mask {
-  0% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+@-moz-keyframes mask {
+  0% {
+    opacity: 1;
+  }
+
+  50%, 100% {
+    opacity: 0;
+  }
 }
 
-@keyframes fill {
-  0% { opacity: 0; }
-  50%, 100% { opacity: 1; }
+@-moz-keyframes fill {
+  0% {
+    opacity: 0;
+  }
+
+  50%, 100% {
+    opacity: 1;
+  }
 }
